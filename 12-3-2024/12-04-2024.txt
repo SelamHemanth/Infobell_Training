@@ -1,0 +1,9 @@
+##Date: 12-4-2024 : Topic: Process Management
+
+* Modren days stack is allocated downwards.
+* mmap() [Memory Mapping] It is mapping the virt memory into Phy memory.
+* Their is a empty memory b/w heap and stack for shared memory
+* 
+* pgrep a.out -> gives the PID number
+* pmap $(pgrep a.out) -> It shows the Process mapping with virt addresses.
+*  
