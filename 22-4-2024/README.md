@@ -98,3 +98,5 @@ COPYING  drivers/        ipc/      lib/     mm/          Module.symvers         
  * Now, reboot the system
 ---
 	$ sudo reboot
+ * The system getting reboot and shows boot menu console. By default native kernel is boot after 30 seconds . If you choose  *Advanced options and choose the destinate kernel version and press Enter key.
+
