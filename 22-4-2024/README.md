@@ -92,5 +92,8 @@ COPYING  drivers/        ipc/      lib/     mm/          Module.symvers         
 	$ sudo make modules_install
 	$ modinfo <full path of the module>
 
- 
+ * Copy the kernel image into boot menu
+---
+	$ sudo make install 
+
  
