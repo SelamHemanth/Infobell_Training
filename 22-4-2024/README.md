@@ -10,6 +10,7 @@
 ***Kernel Soruce Tree***
 ---
  * The stable kernel verison are releases for 20 sublevel versions
+---
 	$ uname -r
 		6.8.7-50-generic 
 			* 6          -> Manjor version
@@ -66,8 +67,17 @@ COPYING  drivers/        ipc/      lib/     mm/          Module.symvers         
  * Install required packages
 	$ sudo apt update
 	$ sudo apt install -y gcc make perl
-	$ sudo apt install -y bison build-essential flex libelf-dev libssl-dev ncurses-dev pahole tar util-linux xz-utils zstd
+	$ sudo apt-get install git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc flex libelf-dev bison
  * Configure the souce code before installing the kernel
 	$ make menuconfig  or make qconfig   or make xconfig
- *
+ Note: By default it compile for X86-Arch . If you want to compile for other architectures. Use this option 
+		$ make ARCH=./arch/<type of arch>
+       Optional steps to remove some errors
+  		scripts/config --disable SYSTEM_TRUSTED_KEYS
+  		scripts/config --disable SYSTEM_REVOCATION_KEYS
+  		scripts/config --disable  CONFIG_DEBUG_INFO_BTF
+  		scripts/config --disable NET_VENDOR_NETRONOME
+ * Now you have full configuration for build the kernel
+	$ make -j<number CPU>
+ 
  
