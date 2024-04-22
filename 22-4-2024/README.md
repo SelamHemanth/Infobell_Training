@@ -87,5 +87,10 @@ COPYING  drivers/        ipc/      lib/     mm/          Module.symvers         
  * Now you have full configuration for build the kernel
 ---
 	$ make -j<number CPU>
+ * Install the modules ( /lib/modules/<kernel version directory> -> It contains all modules ).
+---
+	$ sudo make modules_install
+	$ modinfo <full path of the module>
+
  
  
