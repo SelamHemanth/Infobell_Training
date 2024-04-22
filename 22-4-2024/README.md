@@ -77,11 +77,9 @@ COPYING  drivers/        ipc/      lib/     mm/          Module.symvers         
 ---
 	$ make menuconfig  or make qconfig   or make xconfig
 ---
- Note: By default it compile for X86-Arch . If you want to compile for other architectures. Use this option
----
+ **Note**: By default it compile for X86-Arch . If you want to compile for other architectures. Use this option
 		$ make ARCH=./arch/<type of arch>
        Optional steps to remove some errors
----
   		scripts/config --disable SYSTEM_TRUSTED_KEYS
   		scripts/config --disable SYSTEM_REVOCATION_KEYS
   		scripts/config --disable  CONFIG_DEBUG_INFO_BTF
