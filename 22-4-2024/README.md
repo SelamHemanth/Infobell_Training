@@ -90,10 +90,11 @@ COPYING  drivers/        ipc/      lib/     mm/          Module.symvers         
  * Install the modules ( /lib/modules/<kernel version directory> -> It contains all modules ).
 ---
 	$ sudo make modules_install
-	$ modinfo <full path of the module>
+	$ modinfo <full path of the module>  -> ( To show the info about perticular module )
 
  * Copy the kernel image into boot menu
 ---
 	$ sudo make install 
-
- 
+ * Now, reboot the system
+---
+	$ sudo reboot
