@@ -33,6 +33,7 @@
 
 ***Kernel Source Code***
 ---
+
 	The linux kernel soruce code contails all the following files
 
 arch/    CREDITS         fs/       Kbuild   LICENSES/    modules.builtin          net/      security/   usr/
@@ -60,24 +61,33 @@ COPYING  drivers/        ipc/      lib/     mm/          Module.symvers         
 
 ***Build Kernel***
 ---
+
  * Download kernel source code using this link
+---
 	$ wget  https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.87.tar.xz
- * Extract the tarbal 
+ * Extract the tarbal
+--- 
 	$ tar -xvf <tar file>
  * Install required packages
+---
 	$ sudo apt update
 	$ sudo apt install -y gcc make perl
 	$ sudo apt-get install git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc flex libelf-dev bison
  * Configure the souce code before installing the kernel
+---
 	$ make menuconfig  or make qconfig   or make xconfig
- Note: By default it compile for X86-Arch . If you want to compile for other architectures. Use this option 
+---
+ Note: By default it compile for X86-Arch . If you want to compile for other architectures. Use this option
+---
 		$ make ARCH=./arch/<type of arch>
        Optional steps to remove some errors
+---
   		scripts/config --disable SYSTEM_TRUSTED_KEYS
   		scripts/config --disable SYSTEM_REVOCATION_KEYS
   		scripts/config --disable  CONFIG_DEBUG_INFO_BTF
   		scripts/config --disable NET_VENDOR_NETRONOME
  * Now you have full configuration for build the kernel
+---
 	$ make -j<number CPU>
  
  
