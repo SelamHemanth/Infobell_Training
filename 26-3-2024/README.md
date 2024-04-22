@@ -11,6 +11,7 @@
 	* $ gdb ./a.out  -> It opens in terminal mode
 	* $ gdb -tui ./a.out   -> It opens in text user interface
 **Start debugging :** :
+---
 	* l -> list out the 10 lines of souuce code
 	* b -> putting break points
 		b <line number>    or     b  <function name>
@@ -34,7 +35,7 @@
 	* thread apply all <cmd> -> To apply all threads
 		* thread apply all bt -> To see the stack trace of all threads.   
 
-Note: :  * Don't compile with -O (To ignore Optimise use this option -O0 while compiling).
+Note :   * Don't compile with -O (To ignore Optimise use this option -O0 while compiling).
 	 * GNU GDB Debugger is not supports to debug macros. 
 	 * You can find more gdb commands through this link https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf
  
