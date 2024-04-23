@@ -81,10 +81,15 @@ module_exit(hello_exit);
 ```
  * These are comes with pr_fmt() and dev_fmt() macros.
 	
-	*`#define pr_fmt(fmt) "%s:%s(): " fmt, KBUILD_MODNAME, __func__`
-  	Eg: `[ 5980.719483] dht2x_kdrv:dht2x_read_sensors(): str_crc=4b`
-	
-	*`#define dev_fmt(fmt) "%s(): " fmt, __func__`
-	Eg: `[ 6225.672886] dht2x_kdrv:dht2x_read_sensors(): str_crc=32`
+  * `#define pr_fmt(fmt) "%s:%s(): " fmt, KBUILD_MODNAME, __func__`
+  * Eg:
+```javascript
+[ 5980.719483] dht2x_kdrv:dht2x_read_sensors(): str_crc=4b
+```
+  * `#define dev_fmt(fmt) "%s(): " fmt, __func__`
+  * Eg:
+```javascript
+[ 6225.672886] dht2x_kdrv:dht2x_read_sensors(): str_crc=32
+```
  * Their is so many [print formats](https://www.kernel.org/doc/Documentation/printk-formats.txt) are available to print the different type of data in different format. 
   
