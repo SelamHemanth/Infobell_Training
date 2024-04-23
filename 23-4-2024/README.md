@@ -27,12 +27,12 @@
 ---
 
  * Normally we write C codes are write in user mode i.e., **hello.c**. If you want to write C code in kernel mode, the file called as module. The module look like **hello.ko** . 
- * We use '**insmod**' for insert the module into kernel and '**rmmod**' for remove the module.
- * '**printk**' is the API tool to print the string. Backend insmod and rmmod containd following system calls to enter into kernel layer.
- * '**insmod**'  -> init_module
- * '**rmmod**'   -> delete_moduel
+ * We use `**insmod**` for insert the module into kernel and `**rmmod**` for remove the module.
+ * `**printk**` is the API tool to print the string. Backend insmod and rmmod containd following system calls to enter into kernel layer.
+ * `**insmod**`  -> init_module
+ * `**rmmod**`   -> delete_moduel   
  * This is the sample syntax 
-	'printk(KERN_ALERT "Hello, world\n");'
+	`printk(KERN_ALERT "Hello, world\n");`
  * The printk format string includes a printk “logging level” directive; you should use one of:(from include/linux/kern_levels.h)
 ```javascript
 #define KERN_SOH "\001"  		/* ASCII Start Of Header */
@@ -72,3 +72,4 @@ printk(KERN_ALERT "Goodbye, cruel world\n");
 module_init(hello_init);
 module_exit(hello_exit);
 ```
+ * 
