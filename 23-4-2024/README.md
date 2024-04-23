@@ -29,7 +29,8 @@
  * Normally we write C codes are write in user mode i.e., **hello.c**. If you want to write C code in kernel mode, the file called as module. The module look like **hello.ko** . 
  * We use **insmod** for insert the module into kernel and **rmmod** for remove the module.
  * This is sampple code...
-``````javascript
+
+```javascript
 #include <linux/init.h>
 #include <linux/module.h>
 /* From the official kernel doc:“Loadable kernel modules also require a MODULE_LICENSE() tag. This tag is neither a replacement for proper source code license information (SPDX-License-Identifier) nor in any way relevant for expressing or determining the exact license under which the source code of the module is provided. [...]”
@@ -46,6 +47,4 @@ printk(KERN_ALERT "Goodbye, cruel world\n");
 }
 module_init(hello_init);
 module_exit(hello_exit);
-
 ```
-
