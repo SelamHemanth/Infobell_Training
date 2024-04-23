@@ -27,10 +27,10 @@
 ---
 
  * Normally we write C codes are write in user mode i.e., **hello.c**. If you want to write C code in kernel mode, the file called as module. The module look like **hello.ko** . 
- * We use `**insmod**` for insert the module into kernel and `**rmmod**` for remove the module.
- * `**printk**` is the API tool to print the string. Backend insmod and rmmod containd following system calls to enter into kernel layer.
- * `**insmod**`  -> init_module
- * `**rmmod**`   -> delete_moduel   
+ * We use `insmod` for insert the module into kernel and `rmmod` for remove the module.
+ * `printk` is the API tool to print the string. Backend insmod and rmmod containd following system calls to enter into kernel layer.
+ * `insmod`  -> init_module
+ * `rmmod`   -> delete_moduel   
  * This is the sample syntax 
 	`printk(KERN_ALERT "Hello, world\n");`
  * The printk format string includes a printk “logging level” directive; you should use one of:(from include/linux/kern_levels.h)
@@ -72,4 +72,19 @@ printk(KERN_ALERT "Goodbye, cruel world\n");
 module_init(hello_init);
 module_exit(hello_exit);
 ```
- * 
+ * While booting machine we find some messages like,
+	 
+```javascript
+	 ...
+	 [ 2109.612806] ks3231 1-0068: IRQ! #5
+	 ... 
+```
+ * These are comes with pr_fmt() and dev_fmt() macros.
+	
+	*`#define pr_fmt(fmt) "%s:%s(): " fmt, KBUILD_MODNAME, __func__`
+  	Eg: `[ 5980.719483] dht2x_kdrv:dht2x_read_sensors(): str_crc=4b`
+	
+	*`#define dev_fmt(fmt) "%s(): " fmt, __func__`
+	Eg: `[ 6225.672886] dht2x_kdrv:dht2x_read_sensors(): str_crc=32`
+ * Their is so many [print formats](https://www.kernel.org/doc/Documentation/printk-formats.txt) are available to print the different type of data in different format. 
+  
