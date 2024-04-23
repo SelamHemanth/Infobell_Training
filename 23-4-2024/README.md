@@ -99,4 +99,31 @@ module_exit(hello_exit);
 ---
  `Note:` **$ journalctl** -> It shows the all debug imformation of system.If you want to see current using `-b` option and `-f` for see live begug messages. 
 
+***Compilation of Kernel Module***
+---
+
+ * Kernel compiler is also compiles like C programming. But, only differece is the output file is kernel object file (.ko).
+ * These are the packages to install to compile the kernel module
+```javascript
+sudo apt-get install linux-headers-generic gcc
+```
+ * Simplest Makefile for a kernel module (LKM):
+```javascript
+$ cat Makefile
+// Simplest LKM Makefile
+obj-m = hello.o
+KDIR:= /lib/modules/$(shell uname -r)/build
+PWD:= $(shell pwd)
+all:
+make -C $(KDIR) M=$(PWD) modules
+install:
+make -C $(KDIR) M=$(PWD) modules_install
+clean:
+make -C $(KDIR) M=$(PWD) clean
+```
+ * Build with:
+```javascript
+$ make
+```
+
 
