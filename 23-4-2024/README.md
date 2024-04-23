@@ -13,8 +13,9 @@
         help
         Turns on the hook that will cause this kernel to ...
         blah blah blah
+---
 
-**Note**:Make sure duplicate the backup file. 
+**Note**: Make sure duplicate the backup file. 
 
 ***Kernel Testing***
 ---
