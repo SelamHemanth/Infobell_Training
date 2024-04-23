@@ -52,7 +52,7 @@
  * Writing a single value to this file changes the current loglevel to that value; thus, for example, you can cause all kernel messages to appear at the console by simply entering:
 	' echo “8 4 1 7” > /proc/sys/kernel/printk '
 
- * This is sampple code...
+ * This is sample code...
 
 ```javascript
 #include <linux/init.h>
@@ -90,6 +90,13 @@ module_exit(hello_exit);
   * Eg:
 ```javascript
 [ 6225.672886] dht2x_kdrv:dht2x_read_sensors(): str_crc=32
+[ 6225.672904] dht2x 1-0038: dht2x_read_sensors(): crc obtd=0x32 crc=0x32
+[ 6225.672920] dht2x 1-0038: dht2x_temp_show(): Temperature=24826 milliC
 ```
  * Their is so many [print formats](https://www.kernel.org/doc/Documentation/printk-formats.txt) are available to print the different type of data in different format. 
-  
+ 
+
+---
+ `Note:` **$ journalctl** -> It shows the all debug imformation of system.If you want to see current using `-b` option and `-f` for see live begug messages. 
+
+
