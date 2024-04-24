@@ -76,4 +76,25 @@ SecPageTables:         0 kB
  * Still another tool, (perhaps the best in terms of analysis capabilities) is the kexec/kdump facility in conjunction with the `crash` utility. Crash lets one look up detailed data structure, stack, memory, machine state, etc information.
  * **Setup**  ->  [KGDB](https://github.com/SelamHemanth/Linux-Debugging-Techniques) 
  * **crash**  ->  [`sudo apt-get install crash`](https://man7.org/linux/man-pages/man8/crash.8.html) 
+ * Programatically, can use the macro for_each_process() to iterate through the processes (_not_ threads) on the task list:
+```javascript
+#include <linux/sched/signal.h> << recent kernel's >>
+[...]
+#define for_each_process(p) \
+for (p = &init_task ; (p = next_task(p)) != &init_task ; )
+```
+ * Well then, what about iterating through threads?
+	*Use the macros do_each_thread() and while_each_thread() in pairs on a single loop, as in:
+```javascript
+struct task_struct *g, *t; // 'g' : process ptr; 't': thread ptr !
+do_each_thread(g, t) {
+printk(KERN_DEBUG "%d %d %s\n", g->tgid, t->pid, g->comm);
+} while_each_thread(g, t);
+```
+ * Even simpler: use the for_each_process_thread(p, t) macro ! It’s a double-loop, covering all processes and threads system-wide! (see these macro definitions a bit further below...)
+```javascript
+...
+struct mm_struct *mm;
+struct mm_struct *active_mm;<< VM:
+```
 
