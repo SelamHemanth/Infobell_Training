@@ -123,7 +123,7 @@ make -C $(KDIR) M=$(PWD) clean
 ```
  * Build with:
 ```javascript
-$ make
+$ make				//It builds the kernel object file
+$ make modules_install		//It installs the module into kernel updates
 ```
-
 
