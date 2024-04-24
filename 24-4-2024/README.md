@@ -98,4 +98,64 @@ struct mm_struct *mm;
 struct mm_struct *active_mm;<< VM:
 ...
 ```
-R
+***Kdump***
+---
+
+ * Kdump is a Linux kernel feature that creates a memory image of a system's contents when the kernel crashes, which can help determine the cause of the crash. 
+ * The memory image is called a vmcore, and can be analyzed for debugging purposes.
+ * To know more details about click this button -> [`Kdump`](https://docs.kernel.org/admin-guide/kdump/kdump.html)
+ 
+ * A simple Kdump kernel config check script:
+```javascript
+#!/bin/bash
+name=$(basename $0)
+usage()
+{
+echo "Usage: ${name} [kernel-config-file]"
+}
+[[ $1 = "-h" ]] && {
+usage ; exit 0
+}
+if [[ $# -ge 1 ]] ; then
+KCONFIG=$1
+else
+# NOTE! ASSUMING arch is x86-64
+KCONFIG=/boot/config-$(uname -r)
+fi
+[[ ! -f ${KCONFIG} ]] && {
+echo "${name}: kernel config file ${KCONFIG} not found, aborting" ; exit 1
+}
+echo "Kernel config file: ${KCONFIG}"
+# From https://docs.kernel.org/admin-guide/kdump/kdump.html
+KCONFIGS_ARR=(KEXEC KEXEC_CORE CRASH_CORE SYSFS DEBUG_INFO CRASH_DUMP PROC_VMCORE RELOCATABLE)
+for KCONF in ${KCONFIGS_ARR[@]} ; do
+printf "checking for CONFIG_%-15s" ${KCONF}
+grep "CONFIG_${KCONF}" ${KCONFIG} >/dev/null 2>&1
+[[ $? -ne 0 ]] && printf " NOT found!\n" || printf " [OK]\n"
+done
+exit 0
+```
+ * Boot into the regular kernel reserving space for the dump kernel:
+	* Now boot with the kernel cmdline param 'crashkernel=Y@X'
+	* On x86-64, 'crashkernel=256M' is sufficient.
+ * After boot, load the dump-capture kernel into reserved RAM:
+```javascript
+sudo kexec -p /boot/vmlinuz-5.10.153 --initrd /boot/initrd.img-5.10.153 \ --append "irqpoll nr_cpus=1 reset_devices root=UUID=b67e<...> 3"
+```
+ * Bootloader kernel command-line to first kernel:
+```javascript
+console=tty<...> rootfstype=ext4 root=/dev/<...> rw rootwait init=/sbin/init crashkernel=128M
+```
+ * Just after first / primary kernel has booted:
+```javascript
+$ dmesg |grep -i crash
+[ 0.000000] Reserving 128MB of memory at 1920MB for crashkernel (System RAM: 1784MB)
+[ 0.000000] Kernel command line: console=ttymxc0 rootfstype=ext4 root=/dev/mmcblk0 rw rootwait init=/sbin/init crashkernel=128M@0x78000000
+```
+ * Once kexec has successfully run on the original (first) kernel, can verify via sysfs.
+ * Go through this button to [`Make dump file`](https://linux.die.net/man/8/makedumpfile)
+
+***core***
+---
+ 
+
