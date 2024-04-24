@@ -1,4 +1,4 @@
-#KERNEL ARCHITECTURE AND THE PROCESS DESCRIPTOR
+****KERNEL ARCHITECTURE AND THE PROCESS DESCRIPTOR****
 ---
 
 ***The HZ Value***
@@ -41,7 +41,8 @@ SecPageTables:         0 kB
 ---
  * Besides the kernel-mode stack of the task, the kernel also maintains another structure per task called the thread_info structure. It is used to cache frequently referenced system data and provide a quick way to access the task_struct.
  * The thread info struct and kernel-mode stack are clubbed together in either a single or two contiguous physical memory pages.
- * This is the stack implementation in 32Bit-Arch
+ * This is the stack implementation in 32Bit-Arch.
+
 ![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/24-4-2024/thread%20info%20in%20kernel%20stack%20.PNG)
 
 ***Examining the Stack***
@@ -68,4 +69,11 @@ SecPageTables:         0 kB
 		--batch -p <PID>
 	```
 
-	
+****The Process Descriptor- the task_struct structure****
+---
+ * The structure task_struct represents a Linux task. It is called the process descriptor.
+ * A powerful source-level debugger for the Linux kernel is KGDB.Here, we make use of the sophisticated KGDB interactive kernel debugger tool to look up the task_struct of a process.
+ * Still another tool, (perhaps the best in terms of analysis capabilities) is the kexec/kdump facility in conjunction with the `crash` utility. Crash lets one look up detailed data structure, stack, memory, machine state, etc information.
+ * **Setup**  ->  [KGDB](https://github.com/SelamHemanth/Linux-Debugging-Techniques) 
+ * **crash**  ->  [`sudo apt-get install crash`](https://man7.org/linux/man-pages/man8/crash.8.html) 
+
