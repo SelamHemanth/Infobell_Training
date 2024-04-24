@@ -42,7 +42,8 @@ SecPageTables:         0 kB
  * Besides the kernel-mode stack of the task, the kernel also maintains another structure per task called the thread_info structure. It is used to cache frequently referenced system data and provide a quick way to access the task_struct.
  * The thread info struct and kernel-mode stack are clubbed together in either a single or two contiguous physical memory pages.
  * This is the stack implementation in 32Bit-Arch
-	![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/24-4-2024/thread%20info%20in%20kernel%20stack%20.PNG)
+![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/24-4-2024/thread%20info%20in%20kernel%20stack%20.PNG)
+
 ***Examining the Stack***
 ---
  * Viewing the kernel-mode stack (per thread)
