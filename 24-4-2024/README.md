@@ -29,4 +29,10 @@ $ ps -AL | wc -l   -> It shows the numner of threads
  * **Kernel Mode Stack Size on a few architectures** 
 	* a user-mode stack : dynamic, can (typically) grow to 8 MB (RLIMIT_STACK)
 	* a kernel-mode stack : fixed size, static (2 pages on 32-bit / 4 pages on 64-bit)
- * 
+ * Besides kernel text and data, the kernel dynamically allocates and manages space for several meta-data structures and objects, among them the memory pools, kernel stacks, paging tables, etc.
+```javascript
+$ grep -E "KernelStack|PageTables" /proc/meminfo
+KernelStack:        7984 kB
+PageTables:        12004 kB
+SecPageTables:         0 kB
+```
