@@ -19,6 +19,7 @@ CONFIG_HZ=250
  * Thus, for every thread alive on the system, we have two stacks:
 	* a user-mode stack
 	* a kernel-mode stack
+
 `(The exeception to the above rule: kernel threads. Kernel threads see only kernel virtual address space; thus, they require only a kernel-mode stack).`
 ```javascript
 $ ps -e | wc -l    -> It shows the number of processes
@@ -36,3 +37,34 @@ KernelStack:        7984 kB
 PageTables:        12004 kB
 SecPageTables:         0 kB
 ```
+***The thread_info structure***
+---
+ * Besides the kernel-mode stack of the task, the kernel also maintains another structure per task called the thread_info structure. It is used to cache frequently referenced system data and provide a quick way to access the task_struct.
+ * The thread info struct and kernel-mode stack are clubbed together in either a single or two contiguous physical memory pages.
+ * This is the stack implementation in 32Bit-Arch
+	![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/24-4-2024/thread%20info%20in%20kernel%20stack%20.PNG)
+***Examining the Stack***
+---
+ * Viewing the kernel-mode stack (per thread)
+	```javascript
+	//Syntax:
+		cat /proc/PID/stack     // reveals all stack frames in the kernel-mode stack of thread PID
+	//Ex:
+		$ cat /proc/1/stack
+			[<0>] do_epoll_wait+0x613/0x760
+			[<0>] __x64_sys_epoll_wait+0x5d/0xa0
+			[<0>] x64_sys_call+0x1a08/0x20c0
+			[<0>] do_syscall_64+0x51/0x120
+			[<0>] entry_SYSCALL_64_after_hwframe+0x78/0x80
+	```
+ * Viewing the user-mode stack (per thread)
+	* The traditional way to view the user-mode process/thread stack(s) was via the gstack utility. While it works on some Linux distros, it doesn’t seem to work any longer on modern Ubuntu!
+	* Thus, here’s an alternative script – doing much the same as gstack does: it runs GDB in batch mode to query stacks!
+	```javascript
+		sudo gdb \
+		-ex "set pagination 0" \
+		-ex "thread apply all bt" \
+		--batch -p <PID>
+	```
+
+	
