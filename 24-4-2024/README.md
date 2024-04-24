@@ -96,5 +96,6 @@ printk(KERN_DEBUG "%d %d %s\n", g->tgid, t->pid, g->comm);
 ...
 struct mm_struct *mm;
 struct mm_struct *active_mm;<< VM:
+...
 ```
-
+R
