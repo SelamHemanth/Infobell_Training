@@ -37,6 +37,10 @@
 
 	* The CPU Caches are very fast memory units, which is inside the CPU. Their are different level of cahces with different type speed and cycles.
 	* This figure gives the clear picture.
+ * **False Sharing**
+	* “Avoiding and Identifying False Sharing Among Threads”, Intel In symmetric multiprocessor (SMP) systems, each processor has a local cache.The memory system must guarantee cache coherence. False sharing occurs when pthreads on different processors modify variables that reside on the same cache line.
+	* This invalidates the cache line and forces an update, which hurts performance.
+	* Prevented by ensuring the variables cannot “live” in the same CPU cacheline
 
  ![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/25-4-2024/Memory%20Latency.PNG)
 
@@ -100,4 +104,38 @@ LEVEL4_CACHE_LINESIZE              0
 
 ![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/25-4-2024/64%20bit%20vm%20split.PNG)
 
+![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/25-4-2024/virtual%20memory%20split.PNG)
+
+***PAGE_OFFSET***
+---
+
+ * Splitting point, or, on 64-bit, the start of the kernel segment, is called PAGE_OFFSET.More technically, it’s the location from which physical RAM is direct-mapped into kernel VAS
+```javascript
+  $ zcat /proc/config.gz |grep -i VMSPLIT
+
+CONFIG_VMSPLIT_3G=y
+# CONFIG_VMSPLIT_2G is not set
+# CONFIG_VMSPLIT_1G is not set
+```
+
+***Linux OS at Boot***
+---
+
+ * RAM is divided into nodes. One node for each CPU core that has local RAM available to it. A node is represented by the data structure pg_data_t.
+ * Each node is further split into (at least one, upto four) zones.
+	* ZONE_DMA
+	* ZONE_DMA32
+	* ZONE_NORMAL
+	* ZONE_HIGHMEM
+ * Each zone consists of page frames. A page frame is represented (and managed) by the data structure page.
+ * **Zones:**
+	* Often enable a workaround over a hardware or software issue.
+	* Eg.
+		* ZONE_DMA : 0 – 16 MB on old Intel with the ISA bus
+ 		* ZONE_HIGHMEM : what if the 32-bit platform has more RAM than there is kernel address space? (eg. an embedded system with 3 GB RAM on a machine with a 3:1 VM split) and so on.
+	* The ‘lowmem’ region – direct mapped platform RAM – is often placed as ZONE_NORMAL (but not always)
+	* Kernel inits zones at boot
+
+***Linux Kernel Memory Allocation***
+---
 
