@@ -157,5 +157,27 @@ $ dmesg |grep -i crash
 
 ***core***
 ---
+ * A crash is utility to debug the kernel core dump. It is also same as GDB Debugger.
+ * Install crash by using this command,
+```javascript
+  $ sudo apt-get install crash   -> debian package
+  $ sudo yum install crash       -> rpm package
+```
+ * By using `vmlinux` generate core dump file into this path `/proc/kcore/`
+ * The target core file and system kernel version should be same.
+ * These are the some of steps to debugge the core file using crash utility.
+ * Two broad ways to run crash:
+	* Running with a kdump image (obtained via Kdump/kexec facility upon kernel crash/Oops/panic):
+	
+		`sudo crash <vmlinux-with-symbolic-info> <kdump-image> [corr System.map]`
+	* Running with the ‘live’ kernel image:
+
+		`sudo crash <vmlinux-with-symbolic-info> /proc/kcore [corr System.map]`
+```javascript
+ $ sudo crash         //If that doesn’t work, try passing parameters explicitly
  
+ $ sudo crash ~/linux-5.10.153/vmlinux /proc/kcore     //Enter into crash 
+```
+ * Find more commands through this link  ->  [`Crash Commands`](https://crash-utility.github.io/crash_whitepaper.html)
+
 
