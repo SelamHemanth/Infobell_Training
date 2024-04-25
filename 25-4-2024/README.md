@@ -85,4 +85,19 @@ LEVEL4_CACHE_LINESIZE              0
 	* ensure the structure memory start is CPU cacheline-aligned
 	* don’t let a member “fall off” a cacheline (use padding if required compiler can help)  
 
+***Virtual Address Space Splitting***
+---
+
+ * VM split is a kernel configurable!
+ * In./arch/x86/Kconfig: VMSPLIT_3G / VMSPLIT_2G/VMSPLIT_1G
+ * x86_32: VM split is at 3 GB
+ * ARM-32: VM split is at either 2 GB or 3 GB
+ * On 32-bit Linux,as a simpler example to begin with…
+
+![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/25-4-2024/vm-split.PNG)
+
+ * So, the 64-bit VAS on the x86_64 – with typically 48-bit addressing – is as follows:
+
+![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/25-4-2024/64%20bit%20vm%20split.PNG)
+
 
