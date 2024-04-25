@@ -22,9 +22,9 @@ CONFIG_HZ=250
 
 `(The exeception to the above rule: kernel threads. Kernel threads see only kernel virtual address space; thus, they require only a kernel-mode stack).`
 ```javascript
-$ ps -e | wc -l    -> It shows the number of processes
+$ ps -e | wc -l    -&gt; It shows the number of processes
 330
-$ ps -AL | wc -l   -> It shows the numner of threads
+$ ps -AL | wc -l   -&gt; It shows the numner of threads
 485
 ```
  * **Kernel Mode Stack Size on a few architectures** 
@@ -43,7 +43,7 @@ SecPageTables:         0 kB
  * The thread info struct and kernel-mode stack are clubbed together in either a single or two contiguous physical memory pages.
  * This is the stack implementation in 32Bit-Arch.
 
-![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/24-4-2024/thread%20info%20in%20kernel%20stack%20.PNG)
+![Image](https://github.com/SelamHemanth/Infobell_Training/blob/main/24-4-2024/thread%20info%20in%20kernel%20stack%20.PNG)
 
 ***Examining the Stack***
 ---
@@ -51,7 +51,7 @@ SecPageTables:         0 kB
 	```javascript
 	//Syntax:
 		cat /proc/PID/stack     // reveals all stack frames in the kernel-mode stack of thread PID
-	//Ex:
+	//ex:
 		$ cat /proc/1/stack
 			[<0>] do_epoll_wait+0x613/0x760
 			[<0>] __x64_sys_epoll_wait+0x5d/0xa0
@@ -66,7 +66,7 @@ SecPageTables:         0 kB
 		sudo gdb \
 		-ex "set pagination 0" \
 		-ex "thread apply all bt" \
-		--batch -p <PID>
+		--batch -p &lt;PID>
 	```
 
 ****The Process Descriptor- the task_struct structure****
@@ -74,36 +74,36 @@ SecPageTables:         0 kB
  * The structure task_struct represents a Linux task. It is called the process descriptor.
  * A powerful source-level debugger for the Linux kernel is KGDB.Here, we make use of the sophisticated KGDB interactive kernel debugger tool to look up the task_struct of a process.
  * Still another tool, (perhaps the best in terms of analysis capabilities) is the kexec/kdump facility in conjunction with the `crash` utility. Crash lets one look up detailed data structure, stack, memory, machine state, etc information.
- * **Setup**  ->  [KGDB](https://github.com/SelamHemanth/Linux-Debugging-Techniques) 
+ * **setup**  ->  [KGDB](https://github.com/SelamHemanth/Linux-Debugging-Techniques) 
  * **crash**  ->  [`sudo apt-get install crash`](https://man7.org/linux/man-pages/man8/crash.8.html) 
- * Programatically, can use the macro for_each_process() to iterate through the processes (_not_ threads) on the task list:
+ * Programatically, can use the macro for_each_process() to iterate through the processes (_Not_ threads) on the task list:
 ```javascript
-#include <linux/sched/signal.h> << recent kernel's >>
+#include &lt;linux/sched/signal.h&gt; &lt;&lt; recent kernel's >>
 [...]
 #define for_each_process(p) \
-for (p = &init_task ; (p = next_task(p)) != &init_task ; )
+for (p = &amp;init_task ; (p = next_task(p)) != &amp;init_task ; )
 ```
  * Well then, what about iterating through threads?
 	*Use the macros do_each_thread() and while_each_thread() in pairs on a single loop, as in:
 ```javascript
 struct task_struct *g, *t; // 'g' : process ptr; 't': thread ptr !
 do_each_thread(g, t) {
-printk(KERN_DEBUG "%d %d %s\n", g->tgid, t->pid, g->comm);
+printk(KERN_DEBUG "%d %d %s\n", g-&gt;tgid, t-&gt;pid, g-&gt;comm);
 } while_each_thread(g, t);
 ```
  * Even simpler: use the for_each_process_thread(p, t) macro ! It’s a double-loop, covering all processes and threads system-wide! (see these macro definitions a bit further below...)
 ```javascript
 ...
 struct mm_struct *mm;
-struct mm_struct *active_mm;<< VM:
+struct mm_struct *active_mm;&lt;&lt; VM:
 ...
 ```
-***Kdump***
+***kdump***
 ---
 
  * Kdump is a Linux kernel feature that creates a memory image of a system's contents when the kernel crashes, which can help determine the cause of the crash. 
  * The memory image is called a vmcore, and can be analyzed for debugging purposes.
- * To know more details about click this button -> [`Kdump`](https://docs.kernel.org/admin-guide/kdump/kdump.html)
+ * To know more details about click this button -> [`kdump`](https://docs.kernel.org/admin-guide/kdump/kdump.html)
  
  * A simple Kdump kernel config check script:
 ```javascript
@@ -130,9 +130,9 @@ echo "Kernel config file: ${KCONFIG}"
 KCONFIGS_ARR=(KEXEC KEXEC_CORE CRASH_CORE SYSFS DEBUG_INFO CRASH_DUMP PROC_VMCORE RELOCATABLE)
 for KCONF in ${KCONFIGS_ARR[@]} ; do
 printf "checking for CONFIG_%-15s" ${KCONF}
-grep "CONFIG_${KCONF}" ${KCONFIG} >/dev/null 2>&1
-[[ $? -ne 0 ]] && printf " NOT found!\n" || printf " [OK]\n"
-done
+grep "CONFIG_${KCONF}" ${KCONFIG} &gt;/dev/null 2>&1
+[[ $? -ne 0 ]] &amp;&amp; printf " NOT found!\n" || printf " [OK]\n"
+Done
 exit 0
 ```
  * Boot into the regular kernel reserving space for the dump kernel:
@@ -144,7 +144,7 @@ sudo kexec -p /boot/vmlinuz-5.10.153 --initrd /boot/initrd.img-5.10.153 \ --appe
 ```
  * Bootloader kernel command-line to first kernel:
 ```javascript
-console=tty<...> rootfstype=ext4 root=/dev/<...> rw rootwait init=/sbin/init crashkernel=128M
+console=tty&lt;...&gt; rootfstype=ext4 root=/dev/&lt;...&gt; rw rootwait init=/sbin/init crashkernel=128M
 ```
  * Just after first / primary kernel has booted:
 ```javascript
@@ -155,15 +155,15 @@ $ dmesg |grep -i crash
  * Once kexec has successfully run on the original (first) kernel, can verify via sysfs.
  * Go through this button to [`Make dump file`](https://linux.die.net/man/8/makedumpfile)
 
-***core***
+**crash***
 ---
  * A crash is utility to debug the kernel core dump. It is also same as GDB Debugger.
  * Install crash by using this command,
 ```javascript
-  $ sudo apt-get install crash   -> debian package
-  $ sudo yum install crash       -> rpm package
+  $ sudo apt-get install crash   -&gt; debian package
+  $ sudo yum install crash       -&gt; rpm package
 ```
- * By using `vmlinux` generate core dump file into this path `/proc/kcore/`
+ * By using `Vmlinux` generate core dump file into this path `/proc/kcore/`
  * The target core file and system kernel version should be same.
  * These are the some of steps to debugge the core file using crash utility.
  * Two broad ways to run crash:
