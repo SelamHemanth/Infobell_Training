@@ -1,8 +1,9 @@
+//show_monolithic: enhance the earlier “Hello, world” kernel module to print the process context (just show the process name and PID for now) that the init and cleanup code runs in.
+
+
 #include <linux/init.h>
 #include <linux/module.h>
 
-/* From the official kernel doc:“Loadable kernel modules also require a MODULE_LICENSE() tag. This tag is neither a replacement for proper source code license information (SPDX-License-Identifier) nor in any way relevant for expressing or determining the exact license under which the source code of the module is provided. [...]”
- */
 
 MODULE_LICENSE("Dual BSD/GPL");
 

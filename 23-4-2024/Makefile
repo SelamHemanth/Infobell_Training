@@ -1,5 +1,5 @@
 # Simplest LKM Makefile
-MODNAME = ass-1
+MODNAME = ass-4
 
 obj-m	:= $(MODNAME).o
 
