@@ -14,14 +14,14 @@ static int __init show_threads_init(void)
 
     printk(KERN_INFO "******************** Listing All Threads ******************\n");
 
-    for_each_process(task) {
+    for_each_process(task) 
+    {
         struct task_struct *thread;
         printk(KERN_INFO "Process: %s (PID: %d)\n", task->comm, task->pid);
-        rcu_read_lock();
-        for_each_thread(task, thread) {
+        for_each_thread(task, thread)
+       	{
             printk(KERN_INFO "  Thread: %s (TID: %d)\n", thread->comm, thread->pid);
         }
-        rcu_read_unlock();
     }
 
     return 0; /* success */
