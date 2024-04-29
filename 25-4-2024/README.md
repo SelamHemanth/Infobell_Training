@@ -138,4 +138,5 @@ CONFIG_VMSPLIT_3G=y
 
 ***Linux Kernel Memory Allocation***
 ---
+* Buddy System Allocator (BSA). The kernel’s memory alloc/de-alloc “engine”
 
