@@ -20,5 +20,14 @@ Thus, ksize() helps us detect the wastage (internal fragmentation)!
 ***vmalloc***
 ---
 
+ * When you require more memory than kmalloc can provide (typically 4 MB). vmalloc provides a virtually contiguous memory region.  max size depends on the hardware platform and the kernel config; the kernel’s.
+ * VMALLOC region size – a global pool for all vmalloc’s, only for software use (f.e. not ok for DMA transfers); only process context (not in interrupt code); might cause process context to block.
+ * slower (page table setup required, unlike the kmalloc). the page frames corresponding to the virtual memory region allotted are indeed allocated immediately (under the hood, via alloc_pages() - page allocator!).
+
+```javascipt
+void *vmalloc(unsigned long size);
+void *vzalloc(unsigned long size); // recommended !
+void vfree(const void *addr);
+```
 
 
