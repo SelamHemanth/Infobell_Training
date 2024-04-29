@@ -76,4 +76,85 @@ watch -n 5 -d '/bin/free -m'
 	* Uses heuristics to determine the target process
  * OOM Score (in /proc/<pid>/oom_score)
 
+***SCHEDULING***
+---
+
+ ![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/29-4-2024/Linux%20State%20Machine.PNG)
+
+ * The very powerful and useful Linux perf – performance monitoring and analysis – tool lets us “see” a map of processes (threads) as they run on various processor cores. Below is some sample output from running the 'perf sched map' command from a previously grabbed
+```javascript
+ $ perf sched record <command>
+ $ perf sched map   	//to see complete system
+```
+ * Want it more visual? No problem. The 'perf timechart' command interprets the perf data file (output by the previous 'perf sched record <command>' command and renders the visual representation as an SVG image file.
+ * Use the kernel ftrace (raw) or the trace-cmd front-end or kernelshark to collect data samples.
+ 
+***Linux and Real-Time***
+---
+
+ * Firstly, the Linux OS as originally designed and implemented, is not a “hard real-time” OS, as in an RTOS (Real-Time-OS; more follows on this below: see the sidebar on the PREEMPT-RT patch).
+ * Vanilla-Linux as such is a GPOS (a General-Purpose-OS, like Windows, Mac, Unix'es, etc).
+		
+ ![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/29-4-2024/os%20types.PNG)
+
+**Soft Realtime Capabilities**:
+	* However, the (vanilla) Linux OS's performance metrics are easily high enough to have it qualify as an eminently capable soft real-time (SRT) system. This basically means that it cannot guarantee to meet every single deadline; rather, it performs on a best-effort basis. SRT is exactly the kind of system required for many applications in the real world, many being within the consumer electronics domain.
+	* The POSIX standard specifies three scheduling policies, one of which is the “usual” or normal policy and is always the default. The other two are (soft) realtime scheduling policies. They are:
+		* SCHED_NORMAL (or SCHED_OTHER) ← Default scheduling policy
+		* SCHED_RR
+		* SCHED_FIFO
+
+**SCHED_FIFO:**
+ * A running SCHED_FIFO task can only be preempted under the following three conditions:
+	* It (in)voluntarily yields the processor (technically, it moves out from the RUNNING/RUNNABLE state); this happens when a task issues a blocking call or invokes a system call like sched_yield(2)
+	* It dies or stops
+	* A higher priority realtime task becomes runnable.
+ * In the first case above, the task is then placed at the end of it's runqueue (for that priority level). In the third case, the task remains at the head of the runqueue for it's priority level.
+
+**SCHED_RR:**
+ *  behaviour is identical to that of SCHED_FIFO above except that:
+	* It has a timeslice, and will thus (also) be preempted when it's timeslice expires
+	* When preempted, the task is moved to the tail of the runqueue for it's priority level, ensuring that all SCHED_RR tasks at the same priority level are executed in turn.
+
+**SCHED_OTHER / SCHED_NORMAL:**
+ * All threads run with this policy by default. It is a decidedly non-realtime policy, the emphasis being on “fairness and overall throughput”. It's implementation from kernel ver 2.6.0 upto 2.6.22 was via the so called “O(1) scheduler”; from 2.6.23 onward, it's implemented via the scheduling class called CFS.
+
+---
+
+
+**Note:** On an SMP box, the threads will still run “as usual” - all together, in paralle. To prevent this (and see the point of this application), disable all processors but one to see the true effect of this demo.
+	There are (at least) two ways to do this:
+```javascript
+ $ sysfs    //As root, write '0' to the sysfs node (file) representing the online state of a CPU you wish to disable.
+ $ taskset  //The taskset utility lets a user set (and query) the CPU affinity mask of a process.
+```
+
+***The chrt utility***
+---
+
+ * chrt(1) sets or retrieves the real-time scheduling attributes of an existing PID or runs COMMAND with the given attributes. Both policy (one of SCHED_OTHER, SCHED_FIFO, SCHED_RR, or SCHED_BATCH) and priority can be set and retrieved.
+```javascript
+ $ chrt -f -p 50 6878 	// Make PID 6878 SCHED_FIFO pri 50
+ $ chrt -m		// Show priority range
+ $ chrt -r -p 6878	// pid 6878's current scheduling policy: SCHED_FIFO
+			// pid 6878's current scheduling priority: 99
+ $ chrt -r -p 10 6878 	// set prio to 10...
+```
+
+***Scheduler Classes***
+---
+
+ * The Linux scheduler is modular, enabling different algorithms to schedule different types of processes. This modularity is called scheduler classes.
+ * Scheduler classes enable different, pluggable algorithms to coexist, scheduling their own types of processes / threads. Each scheduler class has a priority. The base scheduler code, which is defined in kernel/sched/core.c , iterates over each scheduler class in order of priority. (In practice, the scheduling classes reside on a linked list that is followed). The highest priority scheduler class that has a runnable process wins, selecting who runs next.The Completely Fair Scheduler (CFS) is the registered scheduler class for normal processes, called SCHED_NORMAL in Linux (and SCHED_OTHER in POSIX). CFS is defined in kernel/sched_fair.c.
+ * The currently existing (as of 6.4) scheduler classes, in priority order, are:
+
+S.No	|	Class Name	 |	sched_class Data Structure	|	 Name Defined in
+********|************************|**************************************|***************************
+1.	| Stop-sched * 		 | stop_sched_class			| kernel/sched/stop_task.c
+2.      | Deadline + 		 | dl_sched_class			| kernel/sched/deadline.c
+3.	| RT (Real-Time) 	 | rt_sched_class 			| kernel/sched/rt.c
+4.	| CFS 			 | fair_sched_class 			| kernel/sched/fair.c
+5.	| Idle 			 | idle_sched_class 			| kernel/sched/idle_task.c
+
+
 
