@@ -151,7 +151,7 @@ watch -n 5 -d '/bin/free -m'
  * The currently existing (as of 6.4) scheduler classes, in priority order, are:
 
 Class Name	 |	sched_class Data Structure	|	 Name Defined in
-*****************|**************************************|***************************
+-----------------|--------------------------------------|--------------------------
 Stop-sched *     |     stop_sched_class			| kernel/sched/stop_task.c
 Deadline + 	 |     dl_sched_class			| kernel/sched/deadline.c
 RT (Real-Time) 	 |     rt_sched_class 			| kernel/sched/rt.c
@@ -180,4 +180,20 @@ Idle 		 |     idle_sched_class			| kernel/sched/idle_task.c
 $ grep sched_latency /sys/kernel/debug/sched/debug
 	.sysctl_sched_latency : 24.000000
 ```
+
+***SCHEDULING CLASSES***
+---
+
+ * The new CFS scheduler has been designed in such a way to introduce "Scheduling Classes," an extensible hierarchy of scheduler modules. These modules encapsulate scheduling policy details and are handled by the scheduler core without the core code assuming too much about them.
+ * sched_fair.c implements the CFS scheduler described above.
+ * sched_rt.c implements SCHED_FIFO and SCHED_RR semantics, in a simpler way than the previous vanilla scheduler did. It uses 100 runqueues (for all 100 RT priority levels, instead of 140 in the previous scheduler) and it needs no expired array.
+ * Scheduling classes are implemented through the sched_class structure, which contains hooks to functions that must be called whenever an interesting event occurs.
+
+***Context Switching***
+---
+
+ * Context switching, the switching from one runnable task to another, is handled by the context_switch() function defined in kernel/sched.c. It is called by schedule() when a new process has been selected to run. It does two basic jobs:
+ * Calls switch_mm(), which is declared in <asm/mmu_context.h>, to switch the vir-tual memory mapping from the previous process’s to that of the new process.
+ * Calls switch_to(), declared in <asm/system.h>, to switch the processor state from the previous process’s to the current’s. This involves saving and restoring stack infor-
+mation and the processor registers and any other architecture-specific state that must be managed and restored on a per-process basis.
 
