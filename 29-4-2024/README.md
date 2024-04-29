@@ -56,6 +56,7 @@ dma_alloc_coherent |   dmam_alloc_coherent
 ```javascript
 watch -n 5 -d '/bin/free -m'
 ```
+
 	* -n : update interval in seconds
 	* -d : Highlight the differences between successive updates...
 
