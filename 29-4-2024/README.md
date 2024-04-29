@@ -31,7 +31,7 @@ void vfree(const void *addr);
 ```
  * The vmalloc() is used by the kernel to allocate thread stacks when VMAP_STACK=y.
 
-**Custom Slab Cahche**
+***Custom Slab Cahche***
 ---
 
  * If a data structure in your kernel code is very often allocated and de-allocated, it’s perhaps a good candidate for a custom slab cache.
@@ -42,9 +42,37 @@ void vfree(const void *addr);
 	* A framework developed for the device model, enabling autofreeing of memory allocated via the ‘devres’ APIs
 	* The freeing occurs on driver detach
 	* Requires the struct device pointer though
-		In place of       |       Devres API
-		---
-		kmalloc / kzalloc |   devm_kmalloc /devm_kzalloc
-                dma_alloc_coherent|   dmam_alloc_coherent
 
- * 
+In place of        |       Devres API
+-------------------|-----------------------------
+kmalloc / kzalloc  |   devm_kmalloc /devm_kzalloc
+dma_alloc_coherent |   dmam_alloc_coherent
+
+ * Kernel Segment on the x86_64:
+
+ ![image](https://github.com/SelamHemanth/Infobell_Training/blob/main/29-4-2024/Kernel%20Segment.PNG)
+
+ * Literally watch memory usage change over time with:
+```javascript
+watch -n 5 -d '/bin/free -m'
+```
+	* -n : update interval in seconds
+	* -d : Highlight the differences between successive updates...
+
+
+***The OOM (Out Of Memory) Killer***
+---
+
+ *  Where’s the VM?
+	* In the ‘memory pyramid’
+	* Registers, CPU Caches, RAM, Swap, (+ newer: nvdimm’s)
+ * What if – worst case scenario - all of these are completely full!?
+ * Then the OOM Killer jumps in, and
+	* Kills the process (and descendants) with highest memory usage
+	* Uses heuristics to determine the target process
+ * Then the OOM Killer jumps in, and
+	* Kills the process (and descendants) with highest memory usage
+	* Uses heuristics to determine the target process
+ * OOM Score (in /proc/<pid>/oom_score)
+
+
