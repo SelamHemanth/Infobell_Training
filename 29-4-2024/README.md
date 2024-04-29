@@ -150,13 +150,13 @@ watch -n 5 -d '/bin/free -m'
  * Scheduler classes enable different, pluggable algorithms to coexist, scheduling their own types of processes / threads. Each scheduler class has a priority. The base scheduler code, which is defined in kernel/sched/core.c , iterates over each scheduler class in order of priority. (In practice, the scheduling classes reside on a linked list that is followed). The highest priority scheduler class that has a runnable process wins, selecting who runs next.The Completely Fair Scheduler (CFS) is the registered scheduler class for normal processes, called SCHED_NORMAL in Linux (and SCHED_OTHER in POSIX). CFS is defined in kernel/sched_fair.c.
  * The currently existing (as of 6.4) scheduler classes, in priority order, are:
 
-	 	Class Name	 |	sched_class Data Structure	|	 Name Defined in
-	 ************************|**************************************|***************************
-	     Stop-sched *        |     stop_sched_class			| kernel/sched/stop_task.c
-	     Deadline + 	 |     dl_sched_class			| kernel/sched/deadline.c
-	     RT (Real-Time) 	 |     rt_sched_class 			| kernel/sched/rt.c
-	     CFS 	         |     fair_sched_class			| kernel/sched/fair.c
-	     Idle 		 |     idle_sched_class			| kernel/sched/idle_task.c
+Class Name	 |	sched_class Data Structure	|	 Name Defined in
+*****************|**************************************|***************************
+Stop-sched *     |     stop_sched_class			| kernel/sched/stop_task.c
+Deadline + 	 |     dl_sched_class			| kernel/sched/deadline.c
+RT (Real-Time) 	 |     rt_sched_class 			| kernel/sched/rt.c
+CFS 	         |     fair_sched_class			| kernel/sched/fair.c
+Idle 		 |     idle_sched_class			| kernel/sched/idle_task.c
 
 ***CFS***
 ---
