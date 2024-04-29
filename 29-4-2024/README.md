@@ -29,5 +29,22 @@ void *vmalloc(unsigned long size);
 void *vzalloc(unsigned long size); // recommended !
 void vfree(const void *addr);
 ```
+ * The vmalloc() is used by the kernel to allocate thread stacks when VMAP_STACK=y.
 
+**Custom Slab Cahche**
+---
 
+ * If a data structure in your kernel code is very often allocated and de-allocated, it’s perhaps a good candidate for a custom slab cache.
+ * Slab layer exposes APIs to allow custom cache creation and management.
+
+ * Managed memory for drivers with the devres APIs (1)
+	* Devres : device resources manager
+	* A framework developed for the device model, enabling autofreeing of memory allocated via the ‘devres’ APIs
+	* The freeing occurs on driver detach
+	* Requires the struct device pointer though
+		In place of       |       Devres API
+		---
+		kmalloc / kzalloc |   devm_kmalloc /devm_kzalloc
+                dma_alloc_coherent|   dmam_alloc_coherent
+
+ * 
