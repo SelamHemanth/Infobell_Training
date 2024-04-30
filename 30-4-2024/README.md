@@ -45,7 +45,7 @@ rdma
  
 **Note:** For more details, please go through [`CGroup`](https://github.com/SelamHemanth/Infobell_Training/blob/main/22-4-2024/InfobellIT_LinuxKernel_Apr2024_kaiwanTECH_6d/courseware/mod08_task_scheduler/cgroups.pdf) document.
 
-***Kernel Synchronising Locking***
+***Kernel Synchronizing Locking***
 ---
 
  * Kernel synchronization locking is a vital concept in operating systems, especially those with multiple processors (multiprocessing). It ensures that multiple parts of the operating system kernel, which is the core of the OS, can access and modify shared data structures safely and consistently.
@@ -62,4 +62,7 @@ rdma
 	* **Data Integrity:** Ensures data structures maintain consistency and avoid corruption.
 	* **Stability:** Prevents race conditions and unexpected system crashes.
 	* **Concurrency:** Enables safe concurrent access to shared resources by the kernel.
- 
+
+**Note:** For more details, please go through [`kernel synchronizing locking`](https://github.com/SelamHemanth/Infobell_Training/blob/main/22-4-2024/InfobellIT_LinuxKernel_Apr2024_kaiwanTECH_6d/courseware/mod09_kernel_sync_locking.pdf) document.
+
+  
