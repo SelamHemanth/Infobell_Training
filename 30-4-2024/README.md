@@ -43,9 +43,23 @@ rdma
  $ man systemd.resource-control
 ```
  
-Note: For more details, please go through [`CGroup`](https://github.com/SelamHemanth/Infobell_Training/blob/main/22-4-2024/InfobellIT_LinuxKernel_Apr2024_kaiwanTECH_6d/courseware/mod08_task_scheduler/cgroups.pdf) document.
+**Note:** For more details, please go through [`CGroup`](https://github.com/SelamHemanth/Infobell_Training/blob/main/22-4-2024/InfobellIT_LinuxKernel_Apr2024_kaiwanTECH_6d/courseware/mod08_task_scheduler/cgroups.pdf) document.
 
 ***Kernel Synchronising Locking***
 ---
 
- * 
+ * Kernel synchronization locking is a vital concept in operating systems, especially those with multiple processors (multiprocessing). It ensures that multiple parts of the operating system kernel, which is the core of the OS, can access and modify shared data structures safely and consistently.
+
+ * Here's a breakdown of the key points:
+ * `Why Locking?`
+	*  The kernel juggles tasks from various applications and handles system events concurrently. Without proper locking, issues like race conditions can arise. A race condition happens when multiple parts of the code try to access and modify the same data at the same time, potentially leading to unexpected results or crashes.
+ * `Types of Locks:`The Linux kernel, a popular example, offers various locking mechanisms for developers to choose from based on the specific situation. Some common ones include:
+	* **Spinlocks:** These busy-wait locks prevent other parts of the code from accessing the data until the current holder releases it.
+	* **Semaphores:** Similar to spinlocks, but instead of busy waiting, they put the requesting process to sleep until the lock becomes available.
+	* **Mutexes:** Mutual exclusion locks ensure only one process can access the data at a time, even across multiple processors.
+	* **Read-Copy-Update (RCU):** This technique allows lock-free reads of data structures with safe updates through a temporary copy.
+ * `Benefits of Proper Locking:`
+	* **Data Integrity:** Ensures data structures maintain consistency and avoid corruption.
+	* **Stability:** Prevents race conditions and unexpected system crashes.
+	* **Concurrency:** Enables safe concurrent access to shared resources by the kernel.
+ 
