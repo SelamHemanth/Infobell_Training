@@ -1,0 +1,22 @@
+**SETTING UP A VIRTUAL MACHINE using VirtualBox**
+
+    1. Any recent Debian-style Linux distro will be required, typically being
+       run as a (guest) Virtual Machine (VM) on a Windows host
+       Preferred guest OS: Ubuntu 20.04 LTS.
+        i. Conveniently, you can download a prebuilt x86_64 Ubuntu 20.04.4
+           (as well as others) Linux image at OSBoxes here:https://www.osboxes.org/.
+           It even comes with the guest additions ready to install. 
+           The default username/password is osboxes/osboxes.org. 
+          
+    2. Hypervisor: prefer VirtualBox 6.x (Windows/Linux/MacOS host is fine):
+        https://www.virtualbox.org/wiki/Downloads 
+
+    
+    Participants should have the Linux VM installed and running before the course begins:
+        ◦ Various good online articles and tutorials on installing Linux as a
+          guest VM on Oracle VirtualBox can be found here:
+          https://github.com/PacktPublishing/Linux-Kernel-Programming/blob/master/Further_Reading.md#chapter-1-kernel-development-workspace-setup---further-reading 
+        ◦ Also see
+          https://github.com/PacktPublishing/Linux-Kernel-Programming/blob/master/Further_Reading.md#chapter-1-kernel-development-workspace-setup---further-reading
+
+ 

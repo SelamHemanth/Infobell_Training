@@ -1,0 +1,11 @@
+Linux Foundation - my presentations
+
+1. Tutorial: Leveraging the OS CPU Scheduler to Write Real-Time MT Apps - Kaiwan Billimoria, kaiwanTECH
+(For the Open Source Summit, N America, April 2023)
+https://www.youtube.com/watch?v=h9psonTquHU&list=PLzHJsAe4ulQowuhV1CZIBAUnghIWOPrev&index=1
+
+2. Mitigating Hackers with Hardening on Linux – An Overview for Developers, Focus on BoF, Kaiwan Billimoria
+(For the Embedded IOT Summit, Prague, June 2023)
+https://www.youtube.com/watch?v=KQa_XEiLGMc&list=PLzHJsAe4ulQowuhV1CZIBAUnghIWOPrev&index=2&t=7306s
+
+
