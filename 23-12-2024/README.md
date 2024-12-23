@@ -5,6 +5,7 @@
 * ltrace (Library Tracer)
 * strace (System Call Tracer)
 * ftrace (Function Tracer)
+* kernelshark (GUI interface tracer)
 * perf (Performance Events)
 * eBPF (Extended Berkeley Packet Filter)
   * bcc
@@ -155,3 +156,23 @@ example usage:
 ```javascript
 trace-cmd record -p function_graph -F /home/amd/a.out  //it will records the data
 trace-cmd report ./trace.dat -l  //it will shows the output
+```
+
+### 4. Kernelshark
+---
+KernelShark is a graphical front-end for analyzing system performance data collected by the trace-cmd tool in Linux. It provides a user-friendly interface to visualize and understand system behavior, making it easier to identify performance bottlenecks and debug issues.
+```bash
+$ kernelshark
+```
+example ouput:
+
+![image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiYfxzQD9l-MUjrLo3y0FCytJmgc8hKz93nA&s)
+
+
+### `Scripts to finds the bug in source kernel`
+---
+* There is a script which is available in kernel source code to finds the bugs in executable or modules
+```javascript
+ex cmd line:  /home/amd/linux-6.5.9/scripts/faddr2line ./oops_tryv1.ko try_oops_init+0x70
+```
+
