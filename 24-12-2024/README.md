@@ -61,10 +61,12 @@ sudo yum install crash  // RHEL
 ```
 * Now investigate the `vmcore`
 ```bash
-crash ./vmcore /proc/kcore
+crash /<path to vmlinux> /<path to vmcore>
 ```
 
-> **_NOTE:_** The crash utility in Linux is a powerful tool for analyzing kernel core dumps or live systems. It's essentially a combination of the traditional crash command and the gdb debugger, offering a comprehensive environment for investigating kernel issues.
+> **_NOTE:_** The crash utility in Linux is a powerful tool for analyzing kernel core dumps or live systems. It's essentially a combination of the traditional crash command and the gdb debugger, offering a comprehensive environment for investigating kernel issues. Please look up [crash](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/analyzing-a-core-dump_managing-monitoring-and-updating-the-kernel#installing-the-crash-utility_analyzing-a-core-dump) document.
+
+
 
 
 
